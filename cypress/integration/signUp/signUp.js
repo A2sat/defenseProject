@@ -12,7 +12,7 @@ When('I click the signUp button', function () {
 cy.get('#signin2').click()
 cy.wait(2000)
 })
-Then('Verify that the signUp page is displayed', function () {
+Then('I verify that the signUp page is displayed', function () {
 cy.get("#sign-username").then($button => {
 
 $button.is(':visible') ? console.log('Username box is visible') : console.log('Username box is invisible')
@@ -42,3 +42,17 @@ cy.on('window:alert', (alertText) => {
     })
 })
 
+// Add the missing step definition for "I enter signUp details"
+When("I enter signUp details", () => {
+    cy.get("#sign-username").clear(); // No username entered
+    cy.get("#sign-password").type("Cypressgocry");
+    cy.get("button[onclick='register()']").click();
+  });
+  
+// Scenario: verify signUp without username leads to unsuccessful registration
+Then('verify unsuccessful registration', function () {
+    cy.on('window:alert', (alertText) => {
+        expect(alertText).to.contain('Please fill out Username and Password');
+        console.log('Alert is visible:', alertText) ; console.log('Alert is invisible:', alertText);
+        })
+    })
