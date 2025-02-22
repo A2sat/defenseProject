@@ -58,3 +58,20 @@ Then('verify unsuccessful registration', function () {
         console.log('Alert is visible:', alertText) ; console.log('Alert is invisible:', alertText);
         })
     })
+
+// Add the missing step definition for "I enter incorrect password in signUp details"
+When("I enter incorrect password in signUp details", () => {
+    cy.get('#signin2').click();  // Click sign-up button
+    cy.get('#signInModal').should('have.class', 'show'); // Ensure modal is fully open
+    cy.get("#sign-username").type("a2sat" + Cypress._.random(0, 1e6));
+    cy.get("#sign-password").should('be.visible').clear(); // Now clear the input
+    cy.get("button[onclick='register()']").click();
+  });
+  
+// Scenario: verify signUp without password leads to unsuccessful registration
+Then('verify signUp without password leads to unsuccessful registration', function () {
+    cy.on('window:alert', (alertText) => {
+        expect(alertText).to.contain('Please fill out Username and Password');
+        console.log('Alert is visible:', alertText) ; console.log('Alert is invisible:', alertText);
+        })
+    })
