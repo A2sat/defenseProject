@@ -30,7 +30,7 @@ $button.is(':visible') ? console.log('signUp box is visible') : console.log('sig
 When('I enter valid signUp details', function () {
 let Username = "a2sat";
 let Password = "Cypressgocry"
-cy.get('#sign-username').type(Username + Cypress._.random(0, 1e6))
+cy.get('#sign-username').type("Username" + Cypress._.random(0, 1e6))
 cy.get('#sign-password').type(Password)
 cy.get("button[onclick='register()']").click()
 })
@@ -42,9 +42,11 @@ cy.on('window:alert', (alertText) => {
     })
 })
 
-// Add the missing step definition for "I enter signUp details"
-When("I enter signUp details", () => {
-    cy.get("#sign-username").clear(); // No username entered
+// Add the missing step definition for "I enter invalid signUp details"
+When("I enter invalid signUp details", () => {
+    cy.get('#signin2').click();  // Click sign-up button
+    cy.get('#signInModal').should('have.class', 'show'); // Ensure modal is fully open
+    cy.get("#sign-username").should('be.visible').clear(); // Now clear the input
     cy.get("#sign-password").type("Cypressgocry");
     cy.get("button[onclick='register()']").click();
   });

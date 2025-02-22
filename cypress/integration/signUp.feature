@@ -17,4 +17,4 @@ Scenario: verify successful signUp with valid username and password
 Scenario: verify signUp without username leads to unsuccessful registration
     Given I open demoblaze website
     When I enter invalid signUp details
-    Then verify error message
+    Then verify unsuccessful registration
