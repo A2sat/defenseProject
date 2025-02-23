@@ -86,3 +86,19 @@ Then("I see an error message", function () {
         console.log('Alert is visible:', alertText) ; console.log('Alert is invisible:', alertText);
     })
 })
+
+// Scenario: verify signUp with numeric characters in username leads to error
+When("I enter numeric username and valid password", () => {
+    cy.get("#signin2").click();
+    cy.wait(2000);
+    cy.get("#sign-username").type("123456782345678");
+    cy.get("#sign-password").type("Cypressgocry");
+    cy.get("button[onclick='register()']").click();
+})
+
+Then("verify signUp with numeric characters in username leads to error", function () {
+    cy.on('window:alert', (alertText) => {
+        expect(alertText).to.contain("Invalid format in username");
+        console.log('Alert is visible:', alertText) ; console.log('Alert is invisible:', alertText);
+    })
+})
