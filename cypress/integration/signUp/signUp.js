@@ -14,14 +14,6 @@ cy.wait(2000)
 })
 Then('I verify that the signUp page is displayed', function () {
 cy.get("#sign-username").then(button => {
-
-button.is(':visible') ? console.log('Username box is visible') : console.log('Username box is invisible')
-
-})
-cy.get("#sign-password").then(button => {
-button.is(':visible') ? console.log('Password box is visible') : console.log('Password box is invisible')
-})
-cy.get("button[onclick='register()']").then(button => {
 button.is(':visible') ? console.log('signUp box is visible') : console.log('signUp box is invisible')
 })
 })
@@ -91,7 +83,7 @@ Then("I see an error message", function () {
 When("I enter numeric username and valid password", () => {
     cy.get("#signin2").click();
     cy.wait(2000);
-    cy.get("#sign-username").type("123456782345678");
+    cy.get("#sign-username").type("123456782345678" + Cypress._.random(0, 1e6));
     cy.get("#sign-password").type("Cypressgocry");
     cy.get("button[onclick='register()']").click();
 })

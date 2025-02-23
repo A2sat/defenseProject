@@ -32,4 +32,4 @@ Scenario: verify signUp with existing username leads to error
 Scenario: verify signUp with numeric characters in username leads to error
     Given I open demoblaze website
     When I enter numeric username and valid password
-    Then I see an error message
+    Then verify signUp with numeric characters in username leads to error
