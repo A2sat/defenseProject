@@ -33,7 +33,7 @@ cy.on('window:alert', (alertText) => {
     console.log('Alert is visible:', alertText) ; console.log('Alert is invisible:', alertText);
     })
 })
-  
+
 // Scenario: verify signUp without username leads to unsuccessful registration
 When("I enter invalid signUp details", () => {
     cy.get('#signin2').click();  // Click sign-up button
