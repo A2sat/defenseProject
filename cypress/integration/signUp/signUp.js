@@ -3,7 +3,7 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
 Given('I open demoblaze website', function () {
-cy.visit("https://www.demoblaze.com/");
+cy.visit(Cypress.env('baseURL'));
 cy.viewport(1800, 1000)
 })
 
