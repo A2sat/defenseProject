@@ -23,3 +23,8 @@ Scenario: verify signUp without password leads to unsuccessful registration
     Given I open demoblaze website
     When I enter incorrect password in signUp details
     Then verify unsuccessful registration
+
+Scenario: verify signUp with existing username leads to error
+    Given I open demoblaze website
+    When I input an existing username and input a valid password
+    Then I see an error message

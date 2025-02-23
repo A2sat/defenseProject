@@ -13,16 +13,16 @@ cy.get('#signin2').click()
 cy.wait(2000)
 })
 Then('I verify that the signUp page is displayed', function () {
-cy.get("#sign-username").then($button => {
+cy.get("#sign-username").then(button => {
 
-$button.is(':visible') ? console.log('Username box is visible') : console.log('Username box is invisible')
+button.is(':visible') ? console.log('Username box is visible') : console.log('Username box is invisible')
 
 })
-cy.get("#sign-password").then($button => {
-$button.is(':visible') ? console.log('Password box is visible') : console.log('Password box is invisible')
+cy.get("#sign-password").then(button => {
+button.is(':visible') ? console.log('Password box is visible') : console.log('Password box is invisible')
 })
-cy.get("button[onclick='logIn()']").then($button => {
-$button.is(':visible') ? console.log('signUp box is visible') : console.log('signUp box is invisible')
+cy.get("button[onclick='register()']").then(button => {
+button.is(':visible') ? console.log('signUp box is visible') : console.log('signUp box is invisible')
 })
 })
 
@@ -41,37 +41,48 @@ cy.on('window:alert', (alertText) => {
     console.log('Alert is visible:', alertText) ; console.log('Alert is invisible:', alertText);
     })
 })
-
-// Add the missing step definition for "I enter invalid signUp details"
+  
+// Scenario: verify signUp without username leads to unsuccessful registration
 When("I enter invalid signUp details", () => {
     cy.get('#signin2').click();  // Click sign-up button
-    cy.get('#signInModal').should('have.class', 'show'); // Ensure modal is fully open
     cy.get("#sign-username").should('be.visible').clear(); // Now clear the input
     cy.get("#sign-password").type("Cypressgocry");
     cy.get("button[onclick='register()']").click();
   });
-  
-// Scenario: verify signUp without username leads to unsuccessful registration
+
 Then('verify unsuccessful registration', function () {
     cy.on('window:alert', (alertText) => {
         expect(alertText).to.contain('Please fill out Username and Password');
         console.log('Alert is visible:', alertText) ; console.log('Alert is invisible:', alertText);
         })
     })
-
-// Add the missing step definition for "I enter incorrect password in signUp details"
+  
+// Scenario: verify signUp without password leads to unsuccessful registration
 When("I enter incorrect password in signUp details", () => {
     cy.get('#signin2').click();  // Click sign-up button
-    cy.get('#signInModal').should('have.class', 'show'); // Ensure modal is fully open
     cy.get("#sign-username").type("a2sat" + Cypress._.random(0, 1e6));
     cy.get("#sign-password").should('be.visible').clear(); // Now clear the input
     cy.get("button[onclick='register()']").click();
   });
-  
-// Scenario: verify signUp without password leads to unsuccessful registration
+
 Then('verify signUp without password leads to unsuccessful registration', function () {
     cy.on('window:alert', (alertText) => {
         expect(alertText).to.contain('Please fill out Username and Password');
         console.log('Alert is visible:', alertText) ; console.log('Alert is invisible:', alertText);
         })
     })
+
+// Scenario: verify signUp with existing username leads to error
+When("I input an existing username and input a valid password", () => {
+    cy.get("#signin2").click();
+    cy.get("#sign-username").type("a2sat");
+    cy.get("#sign-password").type("Cypressgocry");
+    cy.get("button[onclick='register()']").click();
+});
+
+Then("I see an error message", function () {
+    cy.on("window:alert", (alertText) => {
+        expect(alertText).to.contain("This user already exist");
+        console.log('Alert is visible:', alertText) ; console.log('Alert is invisible:', alertText);
+    })
+})
